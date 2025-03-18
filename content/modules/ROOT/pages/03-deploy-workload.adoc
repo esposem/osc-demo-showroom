@@ -152,7 +152,7 @@ The main two switches in the policy are `ReadStreamRequest` and `ExecProcessRequ
 +
 This policy shows that is also possible to define some specific `exec` commands by defining `ExecProcessRequest if {}` and `policy_data := {}` functions and leaving `ExecProcessRequest` to `false`. In this case it only allows the command `curl http://127.0.0.1:8006/cdh/resource/default/kbsres1/key1`. What this means is that the defined command will work, but **any** other command will fail. Even `oc exec -it pods/your_pod -- curl http://127.0.0.1:8006/cdh/resource/default/kbsres1/key2` will not work.
 +
-This is extremely useful if the pod has to provide restricted access to an untrusted actor (admin, developer) to for example debug the application logic inside the confidential container.
+This is extremely useful if the pod has to provide restricted access to an untrusted actor (admin, developer) to for example debug the application logic inside the Confidential Container.
 +
 If limiting exec commands is not important, the whole `ExecProcessRequest if {}` and `policy_data := {}` can be safely deleted from the policy, and as long as `ExecProcessRequest` is `true`, any exec command will be allowed to run.
 +
@@ -170,7 +170,7 @@ And then add it to `metadata:annotations:io.katacontainers.config.agent.policy`.
 
 In this example we will show how easy is to modify an existing pod to make it running in CoCo, i.e. specifying the `runtimeclass` in the podspec. No other action is necessary w.r.t the pod itself, and the confidential VM is completely transparent to it.
 
-This is a sample yaml that runs an `hello-openshift` pod in the `default` namespace. The pod application is not developed by the CoCo team, nor was modified purposefully for this example. The code is available https://github.com/openshift-for-developers/hello[here, window=blank]. This pod creates a server and outputs `"Hello Openshift!"` every time it is reached. The difference between this pod deployed as confidential container and traditional pod is just that the former has `spec.runtimeClassName: kata-remote` defined in the pod spec.
+This is a sample yaml that runs an `hello-openshift` pod in the `default` namespace. The pod application is not developed by the CoCo team, nor was modified purposefully for this example. The code is available https://github.com/openshift-for-developers/hello[here, window=blank]. This pod creates a server and outputs `"Hello Openshift!"` every time it is reached. The difference between this pod deployed as Confidential Container and traditional pod is just that the former has `spec.runtimeClassName: kata-remote` defined in the pod spec.
 
 . Create and apply the yaml file.
 +
@@ -385,7 +385,7 @@ And as expected, the secret is returned successfully.
 Confidential_Secret!
 ----
 +
-IMPORTANT: Notice how the `curl` call is connecting with `http://127.0.0.1`. This is done on purpose, because the CoCo technology is designed to avoid hardcoding any special logic into the pod application. This means that a confidential container doesn't have to know where the Trustee lives, what is its ip, or even care about the attestation report. This is provided in the OSC `AA_KBC_PARAMS` given in the xref:02-configure-osc.adoc#pp-cm[peer-pods configmap]. Such url is then forwarded to the local `Trustee agent` running in side the CoCo Confidential VM automatically, so all the CoCo pod application has to do is communicate **locally** (therefore `http` is enough) with the local `Trustee agent` and ask for the path representing the secret it would like to get, in this case `kbsres1/key1`. The `Trustee agent` will then take care of collecting hardware & software attestation proofs, create an attestation report, enstablish an `https` connection with the remote attester `Trustee operator`, and then perform the attestation process.
+IMPORTANT: Notice how the `curl` call is connecting with `http://127.0.0.1`. This is done on purpose, because the CoCo technology is designed to avoid hardcoding any special logic into the pod application. This means that a Confidential Container doesn't have to know where the Trustee lives, what is its ip, or even care about the attestation report. This is provided in the OSC `AA_KBC_PARAMS` given in the xref:02-configure-osc.adoc#pp-cm[peer-pods configmap]. Such url is then forwarded to the local `Trustee agent` running in side the CoCo Confidential VM automatically, so all the CoCo pod application has to do is communicate **locally** (therefore `http` is enough) with the local `Trustee agent` and ask for the path representing the secret it would like to get, in this case `kbsres1/key1`. The `Trustee agent` will then take care of collecting hardware & software attestation proofs, create an attestation report, enstablish an `https` connection with the remote attester `Trustee operator`, and then perform the attestation process.
 
 . Trying any other command in `exec` will fail.
 +

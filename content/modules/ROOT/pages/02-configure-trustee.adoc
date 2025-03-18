@@ -15,7 +15,7 @@ oc create route edge --service=kbs-service --port kbs-port \
   -n trustee-operator-system
 ----
 +
-NOTE: Currently, only a route with a valid CA-signed certificate is supported. You cannot use a route with self-signed certificate. In ARO, the above route works well. If you are trying this guide from an Azure self managed cluster, there is the `NodePort` option available, which consists of adding `kbsServiceType: NodePort` under `spec` in the xref:02-configure-trustee.adoc#trustee-kbsconfig[Trustee KbsConfig] (restart trustee deployment), and change `AA_KBC_PARAMS` in xref:02-configure-osc.adoc#pp-cm[peer-pods ConfigMap] to be `cc_kbc::http://your_worker_node_where_trustee_is_ip:kbs_service_nodeport`. This is not a suggested approach for production and just useful for trying things in a single cluster.
+NOTE: Currently, only a route with a valid CA-signed certificate is supported. You cannot use a route with self-signed certificate. In ARO, the above route works well. If you are trying this guide from an Azure self managed cluster, there is the `NodePort` option available, which consists of adding `kbsServiceType: NodePort` under `spec` in the xref:02-configure-trustee.adoc#trustee-kbsconfig[Trustee KbsConfig] (restart trustee deployment), and change `AA_KBC_PARAMS` in xref:02-configure-osc.adoc#pp-cm[peer-pods ConfigMap] to be `cc_kbc::http://your_worker_node_ip_where_trustee_is:kbs_service_nodeport`. This is not a supported approach for production and just useful for trying everything in a single cluster.
 
 . Set the `TRUSTEE_HOST` variable. This variable will be useful later when we set the xref:02-configure-osc.adoc#pp-cm[peer-pods ConfigMap]
 +
@@ -427,7 +427,7 @@ oc apply -f attestation-policy.yaml
 [#trustee-key]
 == Add a secret to Trustee
 
-Populate Trustee with secret(s) that are then managed by the above policies and if attestation is successful, are sent to the client(s) (CoCo). For example, a confidential container image/workload could be encrypted, and the key to decrypt it is stored inside the Trustee and provided only if attestation is successful. In this section, we will show how to add the key into Trustee.
+Populate Trustee with secret(s) that are then managed by the above policies and if attestation is successful, are sent to the client(s) (CoCo). For example, a Confidential Container image/workload could be encrypted, and the key to decrypt it is stored inside the Trustee and provided only if attestation is successful. In this section, we will show how to add the key into Trustee.
 
 
 **Prerequisites:** You have created one or more custom keys.

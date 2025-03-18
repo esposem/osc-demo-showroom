@@ -1,6 +1,6 @@
 ---
 site:
-  title: Confidential containers
+  title: Confidential Containers
   url: https://redhat-scholars.github.io/course-template
   start_page: modules::index.adoc
 
