@@ -259,7 +259,7 @@ kata-oc   rendered-kata-oc-894630a1c9cdf3ebef8bd98c72e26608   True      False   
 oc get configmap peer-pods-cm -n openshift-sandboxed-containers-operator -o yaml
 ----
 +
-If `AZURE_IMAGE_ID` is still empty, check the job:
+If `data: AZURE_IMAGE_ID:` is still empty, check the job:
 +
 [source,sh,role=execute]
 ----
@@ -301,6 +301,11 @@ kata-remote      kata-remote      152m
 ----
 
 This is the expected output when looking at the OSC pods (note the random character ending will change):
+[source,sh,role=execute]
+----
+oc get pods -n openshift-sandboxed-containers-operator
+----
+
 [source,texinfo,subs="attributes"]
 ----
 NAME                                           READY   STATUS      RESTARTS   AGE
