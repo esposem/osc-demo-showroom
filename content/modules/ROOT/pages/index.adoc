@@ -1,3 +1,0 @@
-= THIS WORKSHOP HAS BEEN MOVED TO THE https://github.com/confidential-devhub/workshop-on-ARO-showroom[confidential-devhub org, window=blank]
-
-= PLEASE USE https://confidential-devhub.github.io/workshop-on-ARO-showroom/modules/index.html[THIS NEW LINK, window=blank]
